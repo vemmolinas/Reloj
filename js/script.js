@@ -1,9 +1,9 @@
-var meridiano = false;
 var hora = document.getElementById("hora");
 var fecha = document.getElementById("fecha");
 var rayas = document.getElementsByClassName("rayas");
 var tipo_meridiano;
 var funcionamiento_reloj;
+var meridiano = false;
 
 window.onload = function () {
   funcionamiento_reloj = setInterval(function () {
@@ -13,18 +13,20 @@ window.onload = function () {
 
     if (meridiano == true) {
       horas = reloj.getHours() > 12 ? reloj.getHours() - 12 : reloj.getHours();
-      tipo_meridiano = reloj.getHours() > 12 ? "PM" : "AM";
+      tipo_meridiano = tipo_meridiano = reloj.getHours() > 12 ? "PM" : "AM";
     } else {
       horas = reloj.getHours();
       tipo_meridiano = "24H";
     }
 
-    console.log(reloj.getMinutes());
+    // if (reloj.getMinutes() == 0 && reloj.getSeconds() == 0) {
+    //   actualiza();
+    // }
 
     var separador = reloj.getSeconds() % 2 == 0 ? ":" : " ";
 
     hora.value =
-      digito(horas) +
+      digito(reloj.getHours()) +
       separador +
       digito(reloj.getMinutes()) +
       separador +
@@ -41,14 +43,8 @@ window.onload = function () {
   }, 1000);
 };
 
-function cambio_tipo_meridiano() {
-  if (meridiano == false) {
-    meridiano = true;
-    document.getElementById("boton_meridiano").innerHTML = ">- 24 H -<";
-  } else {
-    meridiano = false;
-    document.getElementById("boton_meridiano").innerHTML = "> AM - PM <";
-  }
+function cambio_tipo_meridiano(option) {
+  meridiano = option;
 }
 
 function digito(valor) {
@@ -59,11 +55,14 @@ function generar_rayas() {
   for (var j = 0; j < rayas.length; j++) {
     rayas[j].innerHTML = " ";
   }
-
   for (var j = 0; j < rayas.length; j++) {
     total_rayas = Math.floor(Math.random() * 29) + 1;
     for (var i = 0; i <= total_rayas; i++) {
       rayas[j].innerHTML += " __ <br/>";
     }
   }
+}
+
+function actualiza() {
+  location.reload();
 }
